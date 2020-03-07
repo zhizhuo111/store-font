@@ -2,8 +2,8 @@
     <div class="container">
         <el-form ref="form" :model="form" label-width="80px" class="login-page" :rules="rules">
             <h2 style="text-align:center">登录</h2>
-            <el-form-item label="用  户:" prop="username">
-                <el-input v-model="form.username" placeholder="请输入用户名">
+            <el-form-item label="用  户:" prop="userName">
+                <el-input v-model="form.userName" placeholder="请输入用户名">
                     <el-button slot="prepend" icon="el-icon-user"></el-button>
                 </el-input>
             </el-form-item>
@@ -18,30 +18,55 @@
 </template>
 <script>
 import Home from '@/views/Home.vue';
+import qs from 'qs'
 export default {
     data () {
         return {
             form: {
-                username: "",
+                userName: "",
                 password: ""
             },
             rules: {
-                username: [{ required: true, message: "请输入用户名", trigger: "blur" }]
-            }
+                userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+                password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+            },
+            params: [],
         };
     },
-    components:{
+    components: {
         Home
     },
     methods: {
         login () {
-            // 数据校验
-            this.$refs.form.validate(valid => {
-                if (valid) {
-                    console.log('判断用户名密码是否正确');
-                    this.$router.push({path:'/home'});
-                }
-            });
+            let status = "0";
+            if (this.form.userName == '') {
+                this.$message({
+                    type: 'warning',
+                    message: '请输入用户名'
+                });
+            } else if (this.form.password == '') {
+                this.$message({
+                    type: 'warning',
+                    message: '请输入密码'
+                });
+            } else if (this.password != '' && this.userName != '') {
+                var url = 'http://localhost:8080/user/login';
+                this.params = {
+                    userName: this.form.userName,
+                    password: this.form.password,
+                };
+                let that = this;
+                this.axios.post(url, qs.stringify(this.params)).then(function (res) {
+                    if (res.data !== "") {
+                        that.$router.push({ name: 'home', query:{userName:res.data}});
+                    } else {
+                        that.$message({
+                            type: 'warning',
+                            message: '密码或用户名错误'
+                        });
+                    }
+                });
+            }
         }
     }
 }

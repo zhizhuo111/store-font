@@ -7,13 +7,14 @@
                     <div class="header">
                         <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
                         <template class="username">
-                            <el-link type="info">用户: </el-link>
+                            <el-button type="text" style="color:white">用户：{{this.userName}}</el-button>
+
                         </template>
                     </div>
                 </el-col>
                 <el-col class="logout" :span="4">
                     <div class="navOperater">
-                        <el-link type="info">退出系统</el-link>
+                        <el-button type="text" @click="loginOut()" style="color:white">退出系统</el-button>
                     </div>
                 </el-col>
             </el-row>
@@ -90,14 +91,12 @@
 </template>
 
 <script>
-// 导入组件
 
 export default {
     name: "home",
     data () {
         return {
-            url: "static/img/bj.jpg",
-            fits: ["fill", "contain", "cover", "none", "scale-down"]
+            userName: this.$route.query.userName,
         };
     },
     methods: {
@@ -107,14 +106,13 @@ export default {
         handleClose (key, keyPath) {
             console.log(key, keyPath);
         },
-        navUser () {
-            this.$router.push("/admin/admin");
-            console.log("ok")
-        },
-        navPwd () {
-            this.$router.push("/admin/pwdReset");
-            console.log("no")
+        loginOut () {
+            this.$router.push({ path: '/' });
+            
         }
+    },
+    created(){
+        
     }
 };
 </script>
