@@ -1,110 +1,132 @@
 <template>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <div>
         <el-row>
-            <el-col :span="3">
-                <el-form-item>
-                    <el-select v-model="value" placeholder="查询条件">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-            </el-col>
             <el-col :span="4">
-                <el-form-item>
-                    <el-input v-model="formInline.user" placeholder="看是否能和查询条件同步"></el-input>
-                </el-form-item>
+                <el-select v-model="searchType" placeholder="查询条件" style="width:150px" @blur>
+                    <el-option v-for="item in searchs" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
             </el-col>
             <el-col :span="5">
-                <el-form-item>
-                    <el-select v-model="formInline.region" placeholder="请选择仓库">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
+                <el-input v-model="searchTypeInput" placeholder="请输入" style="width:180px" :disabled="show"></el-input>
             </el-col>
             <el-col :span="6">
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit">查询</el-button>
-                </el-form-item>
+                <el-select v-model="repositoryBelong" clearable placeholder="选择仓库">
+                    <el-option v-for="item in store" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-col>
+            <el-col :span="6">
+                <el-button type="primary" @click="onSubmit">查询</el-button>
             </el-col>
         </el-row>
-        <el-row>
+        <el-row style="padding-top:10px">
             <el-col :span="6">
                 <el-button type="primary" @click="onSubmit">添加库存信息</el-button>
                 <el-button type="primary" @click="onSubmit">导入</el-button>
                 <el-button type="primary" @click="onSubmit">导出</el-button>
             </el-col>
         </el-row>
-        <el-form-item>
-            <el-main style="max-height: 380px !important;border:solid 1px #E4E7ED;width:1200px;margin-top: 10px">
-                <el-table :data="tableData" style="width: 100%">
-                    <el-table-column prop="date" label="记录ID" width="180">
-                    </el-table-column>
-                    <el-table-column prop="name" label="供应商/客户名称" width="180">
-                    </el-table-column>
-                    <el-table-column prop="address" label="商品名称">
-                    </el-table-column>
-                    <el-table-column prop="date" label="出/入库仓库ID" width="180">
-                    </el-table-column>
-                    <el-table-column prop="name" label="数量" width="180">
-                    </el-table-column>
-                    <el-table-column prop="address" label="日期">
-                    </el-table-column>
-                    <el-table-column prop="address" label="经手人">
-                    </el-table-column>
-                    <el-table-column prop="address" label="记录类型">
-                    </el-table-column>
-                </el-table>
-            </el-main>
-        </el-form-item>
-    </el-form>
+        <el-main style="max-height: 380px !important;border:solid 1px #E4E7ED;width:1200px;margin-top: 10px">
+            <el-table :data="tableData" style="width: 100%">
+                <el-table-column prop="goodsID" label="记录ID" width="180">
+                </el-table-column>
+                <el-table-column prop="goodsName" label="商品名称">
+                </el-table-column>
+                <el-table-column prop="goodsSize" label="商品型号">
+                </el-table-column>
+                <el-table-column prop="goodsType" label="商品类型">
+                </el-table-column>
+                <el-table-column prop="goodsValue" label="商品值">
+                </el-table-column>
+                <el-table-column prop="repositoryID" label="出/入库仓库ID" width="180">
+                </el-table-column>
+                <el-table-column prop="number" label="数量" width="180">
+                </el-table-column>
+            </el-table>
+        </el-main>
+    </div>
 </template>
 <script>
+import qs from 'qs'
 export default {
     data () {
         return {
-            formInline: {
-                user: '',
-                region: ''
-            },
-            options: [{
-                value: '选项1',
+            show: false,
+            searchType: '',
+            repositoryBelong: '',
+            searchTypeInput: '',
+            store: [{
+                value: '1003',
+                label: '仓库1',
+            }, {
+                value: '1004',
+                label: '仓库2',
+            }],
+            searchs: [{
+                value: 'searchByGoodsID',
                 label: '货物ID'
             }, {
-                value: '选项2',
-                label: '货物名称'
-            }, {
-                value: '选项3',
+                value: 'searchByGoodsType',
                 label: '货物类型'
             }, {
-                value: '选项4',
+                value: 'searchByGoodsName',
+                label: '货物名称'
+            }, {
+                value: 'searchAll',
                 label: '所有'
             },],
-            value: '',
             tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }]
+                goodsID: "",
+                goodsName: "",
+                goodsSize: "",
+                goodsType: "",
+                goodsValue: "",
+                repositoryID: "",
+                number: "",
+            }],
+            params: [],
         }
     },
     methods: {
+        blur(){
+            if (this.searchType == "searchAll") {
+                this.show = true;
+            }
+        },
         onSubmit () {
-            console.log('submit!');
+            this.tableData = [];
+            this.params = {
+                searchType: this.searchType,
+                repositoryBelong: this.repositoryBelong,
+                searchTypeInput: this.searchTypeInput
+            };
+            var url = 'http://localhost:8888/storageManage/commodityInquiry';
+            var that = this;
+            if (this.searchType == '' && this.repositoryBelong == '' && this.searchTypeInput == '') {
+                that.$message({
+                            type: 'warning',
+                            message: '请选择查询类型'
+                        });
+            }else{
+                const res = this.axios.post(url, qs.stringify(this.params)).then(function (res) {
+                    if (res.data !== "") {
+                        res.data.forEach(element => {
+                            that.tableData.push(element);
+                        });
+                        console.log(that.tableData)
+                    } else {
+                        that.tableData = []
+                        that.$message({
+                                type: 'warning',
+                                message: '数据不存在'
+                            });
+                    }
+    
+                });
+            }
         }
-    }
+    },
 }
 </script>
 <style scoped>

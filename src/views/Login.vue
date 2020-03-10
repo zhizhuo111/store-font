@@ -50,7 +50,7 @@ export default {
                     message: '请输入密码'
                 });
             } else if (this.password != '' && this.userName != '') {
-                var url = 'http://localhost:8080/user/login';
+                var url = 'http://localhost:8888/user/login';
                 this.params = {
                     userName: this.form.userName,
                     password: this.form.password,
