@@ -1,31 +1,32 @@
 <template>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-row>
-            <el-col :span="6">
+            <el-col :span="4">
                 <el-form-item label="仓库编号">
-                    <el-select v-model="value" placeholder="请选择仓库">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select v-model="repositoryID" placeholder="请选择仓库" style="width:125px ">
+                        <el-option v-for="item in search_repository_ID" :key="item.value" :label="item.label" :value="item.value" > 
                         </el-option>
                     </el-select>
                 </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
                 <el-form-item label="记录过滤">
-                    <el-select v-model="value" placeholder="过滤条件">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select v-model="records" placeholder="过滤条件" style="width:150px">
+                        <el-option v-for="item in search_type" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="10">
                 <el-form-item label="日期范围">
-                    <el-date-picker v-model="value" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                    <el-date-picker v-model="date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                     </el-date-picker>
                 </el-form-item>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="5">
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">查询</el-button>
+                    <el-button type="primary" @click="reSet">重置</el-button>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -58,23 +59,27 @@
 export default {
     data () {
         return {
+            repositoryID: '',
+            records: '',
+            date: '',
             formInline: {
                 user: '',
                 region: ''
             },
-            options: [{
+            search_repository_ID: [{
                 value: '选项1',
-                label: '货物ID'
+                label: '所有仓库'
+            }],
+            search_type: [{
+                value: 'all',
+                label: '显示所有'
             }, {
-                value: '选项2',
-                label: '货物名称'
+                value: 'stockInOnly',
+                label: '仅显示入库记录'
             }, {
-                value: '选项3',
-                label: '货物类型'
-            }, {
-                value: '选项4',
-                label: '所有'
-            },],
+                value: 'stockOutOnly',
+                label: '仅显示出库记录'
+            }],
             value: '',
             tableData: [{
                 date: '2016-05-02',
