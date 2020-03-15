@@ -127,6 +127,9 @@ export default {
             }
         }
     },
+    created(){
+        this.onSubmit();
+    }
 }
 </script>
 <style scoped>
