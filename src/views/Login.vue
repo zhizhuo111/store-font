@@ -55,6 +55,7 @@ export default {
                     userName: this.form.userName,
                     password: this.form.password,
                 };
+                    console.log(this.params)
                 let that = this;
                 this.axios.post(url, qs.stringify(this.params)).then(function (res) {
                     if (res.data !== "") {
