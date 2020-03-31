@@ -184,12 +184,8 @@ export default {
             var url = 'http://localhost:8888/customerManage/getCustomerList';
             var that = this;
             this.axios.get(url, qs.stringify(this.params)).then(function (res) {
-                // console.log(".......")
-                // console.log(res.data)
-                // console.log(".......")
                 if (res != undefined && res.data) {
                     that.customers = res.data;//
-                    // console.log(res.data[0])
                 }
             });
 
