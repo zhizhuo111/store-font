@@ -73,7 +73,9 @@ import { validatorDate, validatorRange } from '@/utils/validator'
 export default {
     data () {
         return {
-            paramss: [],
+            params:[],
+            paramss:[],
+            paramsss: [],
             supplier: [],
             number: '',
             ruleForm: {
@@ -152,13 +154,14 @@ export default {
         // 获取供应商
         getSupplierID () {
             var url = 'http://localhost:8888/supplierManage/getSupplierList';
-            var params = 'searchByName';
+            this.paramsss = {
+                searchType: "searchAll",
+                keyWord: "11",
+            };
             var that = this;
-            this.axios.get(url, qs.stringify(this.params)).then(function (res) {
-                // console.log(res.data.data)
+            this.axios.post(url, qs.stringify(that.paramsss)).then(function (res) {
                 if (res != undefined && res.data) {
                     that.ruleForm.supplierMessage = res.data.data;//差了一个所有查询所有数据库
-                    console.log(that.ruleForm.supplierMessage[0].id)
                 }
             });
         },
@@ -168,8 +171,6 @@ export default {
             var params = 'searchByName';
             var that = this;
             this.axios.get(url, qs.stringify(this.params)).then(function (res) {
-                // console.log("aaaaaaaaaaaaa")
-                // console.log(res.data)
                 if (res != undefined && res.data) {
                     that.ruleForm.goodsMessage = res.data;//差了一个所有查询所有数据库
                 }
@@ -183,8 +184,6 @@ export default {
             var params = 'repositoryName';
             var that = this;
             this.axios.get(url, qs.stringify(this.params)).then(function (res) {
-                console.log(res.data[0].id)
-
                 if (res != undefined && res.data) {
                     that.ruleForm.repositoryMessage = res.data;//差了一个所有查询所有数据库
 
@@ -202,20 +201,18 @@ export default {
                 goodsID: this.ruleForm.goodsID,
                 number: this.number,
             };
-            console.log(this.paramss)
             var that = this;
             this.axios.post(url, qs.stringify(this.paramss)).then(function (res) {
-                console.log(res.data)
                 if (res.data) {
-                        that.$message({
-                            type: 'success',
-                            message: '入库成功'
-                        });
-                }else{
                     that.$message({
-                            type: 'error',
-                            message: '入库失败'
-                        });
+                        type: 'success',
+                        message: '入库成功'
+                    });
+                } else {
+                    that.$message({
+                        type: 'error',
+                        message: '入库失败'
+                    });
                 }
             });
         },

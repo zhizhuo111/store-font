@@ -155,8 +155,9 @@ body > .el-container .el-main {
 }
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
-    width: 5px;
-    background-color: #545c64;
+    width: 8px;
+    height: 8px;
+    background-color: #F2F6FC;
 }
 
 /* 滚动槽 */
@@ -167,6 +168,6 @@ body > .el-container .el-main {
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: black;
+    background: #409EFF;
 }
 </style>

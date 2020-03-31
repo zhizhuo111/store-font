@@ -1,7 +1,7 @@
 <template>
     <el-form :inline="true" :model="form" class="demo-form-inline">
         <el-row>
-            <el-col :span="4">
+            <el-col :span="5">
                 <el-form-item label="仓库编号">
                     <el-select v-model="form.repositoryIDStr" placeholder="请选择" style="width:125px">
                         <el-option v-for="item in search_repository_ID" @change="changeVal" :key="item.id" :label="item.name" :value="item.id">
@@ -17,14 +17,14 @@
                     </el-select>
                 </el-form-item>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="9">
                 <el-form-item label="日期范围">
                     <el-date-picker type="date" v-model="form.beginDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width: 150px"></el-date-picker>
                     <span style="padding: 0px 1px 0px 5px"> - </span>
                     <el-date-picker @change="changeDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" v-model="form.endDate" style="width: 150px"></el-date-picker>
                 </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="4">
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">查询</el-button>
                     <el-button type="primary" @click="reSet">重置</el-button>

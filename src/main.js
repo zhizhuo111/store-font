@@ -7,11 +7,13 @@ import ElementUI from 'element-ui';//elements组件
 import 'element-ui/lib/theme-chalk/index.css';
 import VueResource from 'vue-resource';//资源请求插件
 import axios from 'axios';//引入axios
+import Vuex from 'vuex'
 
 
 Vue.prototype.axios = axios//挂载到vue原型链上
 Vue.use(VueResource)
 Vue.use(ElementUI);
+Vue.use(Vuex);
 Vue.config.productionTip = false
 
 /*入口文件*/
