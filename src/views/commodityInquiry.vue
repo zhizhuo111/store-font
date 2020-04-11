@@ -20,13 +20,13 @@
                 <el-button type="primary" @click="onSubmit">查询</el-button>
             </el-col>
         </el-row>
-        <el-row style="padding-top:10px">
+        <!-- <el-row style="padding-top:10px">
             <el-col :span="6">
                 <el-button type="primary" @click="onSubmit">添加库存信息</el-button>
                 <el-button type="primary" @click="onSubmit">导入</el-button>
                 <el-button type="primary" @click="onSubmit">导出</el-button>
             </el-col>
-        </el-row>
+        </el-row> -->
         <el-main style="max-height: 380px !important;border:solid 1px #E4E7ED;width:1200px;margin-top: 10px">
             <el-table :data="tableData" style="width: 100%">
                 <el-table-column prop="goodsID" label="记录ID" width="180">
