@@ -1,8 +1,10 @@
 <template>
-    <div>
-        <el-image style="width: 600px; height: 400px;padding-left:300px" :src="url" :preview-src-list="srcList">
-        </el-image>
-    </div>
+    <el-carousel :interval="4000" type="card" height="300px">
+        <el-carousel-item v-for="item in srcList" :key="item">
+            <el-image style="width: 400px; height: 400px;padding-left:160px" :src="item">
+            </el-image>
+        </el-carousel-item>
+    </el-carousel>
 </template>
 
 <script>
@@ -15,12 +17,10 @@ export default {
                 'static/img/p1.jpg',
                 'static/img/p2.jpg',
                 'static/img/p3.jpg',
+                'static/img/p4.png',
             ]
         }
     },
-    components: {
-
-    }
 }
 </script>
 
@@ -36,4 +36,10 @@ export default {
     margin: 0;
     padding-top: 50px;
 }
+  .el-carousel__item .el-image {
+    opacity: 0.75;
+    line-height: 200px;
+    margin-right: 100px;
+
+  }
 </style>

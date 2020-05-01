@@ -3,7 +3,7 @@
         <!-- 头部 -->
         <el-header height="70px">
             <el-row>
-                <el-col :span="20" class="login">
+                <el-col :span="18" class="login">
                     <div class="header">
                         <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
                         <template class="username">
@@ -13,6 +13,11 @@
                     </div>
                 </el-col>
                 <el-col class="logout" :span="4">
+                    <div class="navOperater">
+                        <el-button type="text" @click="setting()" style="color:white">信息修改</el-button>
+                    </div>
+                </el-col>
+                <el-col class="logout" :span="2">
                     <div class="navOperater">
                         <el-button type="text" @click="loginOut()" style="color:white">退出系统</el-button>
                     </div>
@@ -96,7 +101,7 @@ export default {
     name: "home",
     data () {
         return {
-            userName: this.$route.query.userName,
+            userName: ""
         };
     },
     methods: {
@@ -108,17 +113,22 @@ export default {
         },
         loginOut () {
             this.$router.push({ path: '/' });
-            
+        },
+        setting () {
+            this.$router.push({ path: '/setting' });
+
         }
     },
-    created(){
-        
+    created () {
+        var storage = window.sessionStorage;
+        storage.setItem('userName', this.$route.query.userName);
+        this.userName = storage.getItem('userName');
     }
 };
 </script>
 <style lang="scss" scoped>
 body > .el-container .el-main {
-    margin-left: 243px;
+    margin-left: 243px; 
     border: solid 1px #dcdfe6;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     min-height: 600px;
@@ -157,7 +167,7 @@ body > .el-container .el-main {
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
-    background-color: #F2F6FC;
+    background-color: #f2f6fc;
 }
 
 /* 滚动槽 */
@@ -168,6 +178,6 @@ body > .el-container .el-main {
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: #409EFF;
+    background: #409eff;
 }
 </style>

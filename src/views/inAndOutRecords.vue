@@ -40,11 +40,11 @@
                     </el-table-column>
                     <el-table-column prop="goodsName" label="商品名称">
                     </el-table-column>
-                    <el-table-column prop="searchType" label="出/入库仓库ID" width="180">
+                    <el-table-column prop="repositoryID" label="出/入库仓库ID" width="180">
                     </el-table-column>
-                    <el-table-column prop="number" label="数量" width="180">
+                    <el-table-column prop="number" label="数量" width="80">
                     </el-table-column>
-                    <el-table-column prop="time" label="日期">
+                    <el-table-column prop="time" label="日期" width="180">
                     </el-table-column>
                     <el-table-column prop="personInCharge" label="经手人">
                     </el-table-column>
@@ -92,11 +92,12 @@ export default {
                 time: "",
                 personInCharge: "",
             }],
-            params:[],
+            params:'',
             paramss:'',
         }
     },
     methods: {
+        changeVal(){},
         setSecurityData () {
             var url = 'http://localhost:8888/repositoryManage/getRepositoryList';
             var that = this;
@@ -109,9 +110,6 @@ export default {
             });
 
         },
-        changeVal (value) {
-
-        },
         changeDate (date) {
             let startYear = this.form.beginDate.substr(0, 4);
             let startMonth = parseFloat(this.form.beginDate.substr(5, 2)) - 1;
@@ -122,7 +120,7 @@ export default {
             let endDate = this.form.endDate.substr(8, 2);
             let endTime = new Date(endYear, endMonth, endDate).getTime();
             if (starTime > endTime) {
-                this.$confirm('结束日期应大于开始日期', '提示', {
+                this.$confirm('结束日期应大于开始日期', '提示', { 
                     confirmButtonText: '确定',
                     cancelButtonText: '',
                     closeOnClickModal: false,
@@ -140,22 +138,12 @@ export default {
                 endDate: this.form.endDate,
             };
             console.log(this.params)
-            var url = 'http://localhost:8888/storageManage/searchStockRecord';
+            var url = 'http://localhost:8888/stockRecordManage/searchStockRecord';
             var that = this; 
-            // if (that.form.searchType == '' && that.form.repositoryIDStr == '' && that.form.beginDate == '' && that.form.endDate == '') {
-            //     that.$message({
-            //         type: 'warning',
-            //         message: '请选择查询类型'
-            //     });
-            // } else {
-            //     debugger
                 this.axios.post(url, qs.stringify(this.params)).then(function (res) {
                     if (res.data !== "" || res.data !== 'null') {
                         console.log(res.data.data);
                         that.tableData = res.data.data;
-                        // res.data.forEach(element => {
-                        //     that.tableData.push(element);
-                        // });
                         console.log(that.tableData)
                     } else {
                         that.tableData = []                                                                            
@@ -166,7 +154,32 @@ export default {
                     }
 
                 });
-            // }
+        },
+        init () {
+            this.tableData = [];
+            this.params = {
+                searchType: "all",
+                repositoryIDStr: "",
+                beginDate: "",
+                endDate: "",
+            };
+            console.log(this.params)
+            var url = 'http://localhost:8888/stockRecordManage/searchStockRecord';
+            var that = this; 
+                this.axios.post(url, qs.stringify(this.params)).then(function (res) {
+                    if (res.data !== "" || res.data !== 'null') {
+                        console.log(res.data.data);
+                        that.tableData = res.data.data;
+                        console.log(that.tableData)
+                    } else {
+                        that.tableData = []                                                                            
+                        that.$message({
+                            type: 'warning',
+                            message: '数据不存在'
+                        });
+                    }
+
+                });
         },
         reSet () {
 
@@ -174,6 +187,9 @@ export default {
     },
     mounted () {
         this.setSecurityData();
+    },
+    created (){
+        this.init()
     }
 }
 </script>

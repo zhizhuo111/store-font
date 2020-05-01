@@ -19,7 +19,7 @@
             </el-col>
             <el-col :span="6">
                 <el-form-item>
-                    <el-select v-model="searchByName" placeholder="请选择仓库地址" :disabled="this.search !== 'searchByName'">
+                    <el-select v-model="searchByName" placeholder="请选择仓库地址" :disabled="this.search !== 'searchByAddress'">
                         <el-option v-for="item in searchByNames" :key="item.id" :label="item.name" :value="item.name">
                         </el-option>
                     </el-select>
@@ -121,7 +121,7 @@ export default {
     methods: {
         //查询条件切换时，会重置查询条件
         Reset () {
-            this.searchByName = '';
+            this.searchByAddress = '';
             this.searchByID = '';
         },
         //查询

@@ -3,6 +3,10 @@ import Router from 'vue-router';
 Vue.use(Router)
 // 登录
 const login = r => require.ensure([], () => r(require('@/views/Login')), 'login');
+// 注册
+const register = r => require.ensure([], () => r(require('@/views/Register')), 'register');
+// 用户设置
+const setting = r => require.ensure([], () => r(require('@/views/Setting')), 'setting');
 // 主页
 const home = r => require.ensure([], () => r(require('@/views/Home')), 'home');
 // 库存管理
@@ -31,12 +35,20 @@ export default new Router({
             component: login
         },
         {
+            path: '/register',
+            component: register
+        },
+        {
+            path: '/setting',
+            component: setting
+        },
+        {
             path: '/home',
             component: home,
             name: 'home',
             children: [
                 {
-                    path: '',
+                    path: '/',
                     component: index,
                     meta: [],
                 },

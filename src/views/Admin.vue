@@ -146,6 +146,7 @@ export default {
                         that.searchByNames.push(element);
                         that.searchByRepositoryIDs.push(element);
                     });
+                    that.tableData = res.data;
                 }
                 // console.log(that.searchByIDs)
             });
@@ -183,6 +184,10 @@ export default {
         getCustomers () {
             var url = 'http://localhost:8888/customerManage/getCustomerList';
             var that = this;
+            this.params = {
+                searchType: "searchAll",
+                keyWord: "sy"
+            }
             this.axios.get(url, qs.stringify(this.params)).then(function (res) {
                 if (res != undefined && res.data) {
                     that.customers = res.data;//
@@ -191,7 +196,7 @@ export default {
 
         },
     },
-    mounted () {
+    created () {
         this.getCustomers();
         this.searchSelections();
     }

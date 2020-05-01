@@ -107,18 +107,18 @@ export default {
                 ],
             },
             rules: {
-                customer: [
-                    { required: true, message: '必填项', trigger: 'blur' },
-                ],
-                goods: [
-                    { required: true, message: '必填项', trigger: 'change' },
-                ],
-                region: [
-                    { required: true, message: '必填项', trigger: 'change' }
-                ],
-                desc: [
-                    { required: true, message: '必填项', trigger: 'blur' }, { validator: validatorRange(0, 99999999.99, '请输入[1,99999999.99]的数字'), trigger: 'blur' }
-                ]
+                // customer: [
+                //     { required: true, message: '必填项', trigger: 'blur' },
+                // ],
+                // goods: [
+                //     { required: true, message: '必填项', trigger: 'change' },
+                // ],
+                // region: [
+                //     { required: true, message: '必填项', trigger: 'change' }
+                // ],
+                // desc: [
+                //     { required: true, message: '必填项', trigger: 'blur' }, { validator: validatorRange(0, 99999999.99, '请输入[1,99999999.99]的数字'), trigger: 'blur' }
+                // ]
             }
         };
     },

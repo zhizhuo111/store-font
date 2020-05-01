@@ -16,6 +16,13 @@ Vue.use(ElementUI);
 Vue.use(Vuex);
 Vue.config.productionTip = false
 
+//[3]创建一个store实例
+const store=new Vuex.Store({
+    state:{//[4]所有组件共用数据存放处
+      userName: ''
+    }
+  })
+
 /*入口文件*/
 new Vue({
   el: '#app',

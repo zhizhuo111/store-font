@@ -1,45 +1,46 @@
 <template>
     <div class="container">
-        <el-form ref="form" :model="form" label-width="80px" class="login-page" :rules="rules">
-            <h2 style="text-align:center">登录</h2>
+        <el-form ref="form" :model="form" label-width="100px" class="login-page" :rules="rules">
+            <h2 style="text-align:center">用户信息修改</h2>
             <el-form-item label="用  户:" prop="userName">
                 <el-input v-model="form.userName" placeholder="请输入用户名">
                     <el-button slot="prepend" icon="el-icon-user"></el-button>
                 </el-input>
             </el-form-item>
-            <el-form-item label="密 码:">
+            <el-form-item label="密 码:" prop="password">
                 <el-input v-model="form.password" type="password" placeholder="请输入密码">
                     <el-button slot="prepend" icon="el-icon-key"></el-button>
                 </el-input>
             </el-form-item>
-            <el-button type="primary" icon="el-icon-user-solid" @click="login">登 录</el-button>
-            <el-button type="primary" icon="el-icon-register-solid" @click="register" style="margin-left: 150px">注 册</el-button>
+            <el-form-item label="密 码 确 认:" prop="password2">
+                <el-input v-model="form.password2" type="password" placeholder="请确认密码">
+                    <el-button slot="prepend" icon="el-icon-key"></el-button>
+                </el-input>
+            </el-form-item>
+            <el-button type="primary" icon="el-icon-user-solid" @click="register" style="margin-left: 150px">完 成</el-button>
         </el-form>
     </div>
 </template>
 <script>
-import Home from '@/views/Home.vue';
 import qs from 'qs'
 export default {
     data () {
         return {
             form: {
                 userName: "",
-                password: ""
+                password: "",
+                password2: "",
             },
             rules: {
                 userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-                password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+                password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+                password2: [{ required: true, message: "请再次输入密码", trigger: "blur" }]
             },
             params: [],
         };
     },
-    components: {
-        Home
-    },
     methods: {
-        login () {
-            let status = "0";
+        register () {
             if (this.form.userName == '') {
                 this.$message({
                     type: 'warning',
@@ -50,8 +51,19 @@ export default {
                     type: 'warning',
                     message: '请输入密码'
                 });
-            } else if (this.password != '' && this.userName != '') {
-                var url = 'http://localhost:8888/user/login';
+            } else if (this.form.password2 == '') {
+                this.$message({
+                    type: 'warning',
+                    message: '请再次输入密码'
+                });
+            } else if (this.form.password != this.form.password2) {
+                this.$message({
+                    type: 'warning',
+                    message: '密码不一致'
+                });
+            }
+            if (this.form.password == this.form.password2 && this.form.userName != null) {
+                var url = 'http://localhost:8888/user/register';
                 this.params = {
                     userName: this.form.userName,
                     password: this.form.password,
@@ -60,19 +72,20 @@ export default {
                 this.axios.post(url, qs.stringify(this.params)).then(function (res) {
                     console.log(res.data)
                     if (res.data !== "") {
-                        that.$router.push({ name: 'home', query:{userName:res.data}});
+                        that.$message({
+                            type: 'success',
+                            message: '注册成功'
+                        });
+                        that.$router.push('/');
                     } else {
                         that.$message({
                             type: 'warning',
-                            message: '密码或用户名错误'
+                            message: '请正确输入密码或用户名'
                         });
                     }
                 });
-            }
+            } 
         },
-        register(){
-            this.$router.push('register');
-        }
     }
 }
 

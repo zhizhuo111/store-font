@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item label="入库仓库" prop="region">
             <el-select v-model="ruleForm.repositoryID" placeholder="请选择仓库" style="width:180px">
-                <el-option v-for="item in ruleForm.repositoryMessage" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                <el-option v-for="item in ruleForm.repositoryMessage" :key="item.id" :label="item.id" :value="item.id"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="入库数量" prop="desc">
@@ -110,18 +110,18 @@ export default {
                 ],
             },
             rules: {
-                supplier: [
-                    { required: true, message: '必填项', trigger: 'blur' },
-                ],
-                goods: [
-                    { required: true, message: '必填项', trigger: 'change' },
-                ],
-                region: [
-                    { required: true, message: '必填项', trigger: 'change' }
-                ],
-                desc: [
-                    { required: true, message: '必填项', trigger: 'blur' }, { validator: validatorRange(0, 99999999.99, '请输入[1,99999999.99]的数字'), trigger: 'blur' }
-                ]
+                // supplier: [
+                //     { required: true, message: '必填项', trigger: 'blur' },
+                // ],
+                // goods: [
+                //     { required: true, message: '必填项', trigger: 'change' },
+                // ],
+                // region: [
+                //     { required: true, message: '必填项', trigger: 'change' }
+                // ],
+                // desc: [
+                //     { required: true, message: '必填项', trigger: 'blur' }, { validator: validatorRange(0, 99999999.99, '请输入[1,99999999.99]的数字'), trigger: 'blur' }
+                // ]
             }
         };
     },
@@ -175,8 +175,6 @@ export default {
                     that.ruleForm.goodsMessage = res.data;//差了一个所有查询所有数据库
                 }
             });
-
-
         },
         // 获取仓库
         getRepositoryID () {
@@ -186,7 +184,7 @@ export default {
             this.axios.get(url, qs.stringify(this.params)).then(function (res) {
                 if (res != undefined && res.data) {
                     that.ruleForm.repositoryMessage = res.data;//差了一个所有查询所有数据库
-
+                    console.log(that.ruleForm.repositoryMessage)
                 }
             });
         },
@@ -195,11 +193,13 @@ export default {
         },
         onSubmit () {
             var url = 'http://localhost:8888/stockRecordManage/stockIn';
+            console.log(this.$route.query.userName)
             this.paramss = {
                 supplierID: this.ruleForm.supplierID,
                 repositoryID: this.ruleForm.repositoryID,
                 goodsID: this.ruleForm.goodsID,
                 number: this.number,
+                userName: "admin"
             };
             var that = this;
             this.axios.post(url, qs.stringify(this.paramss)).then(function (res) {

@@ -131,6 +131,9 @@ export default {
             if (this.searchByID) {
                 keyWordName = this.searchByID;
             }
+            if(this.search == 'searchAll'){
+                keyWordName = '1';
+            }
             var url = 'http://localhost:8888/goodsManage/getGoodsList';
             this.params = {
                 searchType: value,
@@ -141,6 +144,7 @@ export default {
             this.axios.post(url, qs.stringify(that.params)).then(function (res) {
                 if (res != undefined && res.data) {
                     that.tableData = res.data;//差了一个所有查询所有数据库
+                    console.log(that.tableData)
                 }
             });
         },
