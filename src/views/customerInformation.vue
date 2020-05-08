@@ -35,18 +35,15 @@
                 <el-form-item>
                     <el-button type="primary" @click="edit">编辑</el-button>
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="del(scope.$index, scope.row)">删除</el-button>
-                </el-form-item>
             </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
             <el-col :span="12">
                 <el-button type="primary">添加客户</el-button>
                 <el-button type="primary">导入</el-button>
                 <el-button type="primary">导出</el-button>
             </el-col>
-        </el-row>
+        </el-row> -->
         <el-form-item>
             <el-main style="max-height: 380px !important;border:solid 1px #E4E7ED;width:1200px;margin-top: 10px">
                 <el-table @selection-change="handleSelectionChange" :data="tableData" style="width: 100%" @cell-dblclick="dblclickCell">
@@ -56,19 +53,19 @@
                     <el-table-column prop="personInCharge" label="负责人" width="100"></el-table-column>
                     <el-table-column prop="tel" label="联系电话" width="150"></el-table-column>
                     <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-                    <el-table-column prop="address" label="地址" width="350"></el-table-column>
+                    <el-table-column prop="address" label="地址" width="330"></el-table-column>
                 </el-table>
             </el-main>
         </el-form-item>
         <!-- 编辑 -->
-        <el-dialog title="客户信息管理" :visible.sync="dialogTableVisible" :width="'90%'" >
-            <v-edit-customer :tableData="tableData" @getSupplierID="getSupplierID"></v-edit-customer>
+        <el-dialog title="客户信息管理" :visible.sync="dialogTableVisible" :width="'90%'">
+            <v-edit-customer :tableData="tableData" @getCustomerID="getCustomerID"></v-edit-customer>
         </el-dialog>
         <!-- 新增 -->
         <el-dialog title="新增客户" :visible.sync="addDialogTableVisible" :width="'70%'">
-            <v-add-customer ref="addSupplier" :ruleForm="ruleForm"></v-add-customer>
+            <v-add-customer ref="addCustomer" :ruleForm="ruleForm"></v-add-customer>
             <template slot="footer" style="text-align: center;">
-                <el-button type="success" round @click="addSupplier">新增</el-button>
+                <el-button type="success" round @click="addCustomer">新增</el-button>
                 <el-button type="info" round @click="doCel">取消</el-button>
             </template>
         </el-dialog>
@@ -76,10 +73,10 @@
 </template>
 <script>
 import qs from 'qs';
-import vEditSupplier from '@/components/editSupplier';
-import vAddSupplier from '@/components/addSupplier';
+import vEditCustomer from '@/components/editCustomer';
+import vAddCustomer from '@/components/addCustomer';
 export default {
-    components: { vAddSupplier, vEditSupplier },
+    components: { vAddCustomer, vEditCustomer },
     data () {
         return {
             customer: {},//新增客户
@@ -136,7 +133,7 @@ export default {
             if (this.searchByID) {
                 keyWordName = this.searchByID
             }
-            var url = 'http://localhost:8888/customerManage/getSupplierList';
+            var url = 'http://localhost:8888/customerManage/getCustomerLists';
             this.params = {
                 searchType: value,
                 keyWord: keyWordName,
@@ -158,14 +155,14 @@ export default {
             this.ruleForm = '';
         },
         // 新增弹框中进行新增数据操作
-        addSupplier () {
-            this.getSupplierID();
-            let customerName = this.$refs.addSupplier.ruleForm.customerName;
-            let personInCharge = this.$refs.addSupplier.ruleForm.personInCharge;
-            let tel = this.$refs.addSupplier.ruleForm.tel;
-            let email = this.$refs.addSupplier.ruleForm.email;
-            let address = this.$refs.addSupplier.ruleForm.address;
-            var url = 'http://localhost:8888/customerManage/addSupplier';
+        addCustomer () {
+            this.getCustomerID();
+            let customerName = this.$refs.addCustomer.ruleForm.supplierName;
+            let personInCharge = this.$refs.addCustomer.ruleForm.personInCharge;
+            let tel = this.$refs.addCustomer.ruleForm.tel;
+            let email = this.$refs.addCustomer.ruleForm.email;
+            let address = this.$refs.addCustomer.ruleForm.address;
+            var url = 'http://localhost:8888/customerManage/addCustomer';
             this.customer = {
                 // id: customerID,// 客户ID
                 name: customerName,// 客户名
@@ -188,31 +185,31 @@ export default {
                         type: 'success',
                         message: '新增客户成功'
                     });
-                    that.$refs.addSupplier.ruleForm.customerID = '';
-                    that.$refs.addSupplier.ruleForm.customerName = '';
-                    that.$refs.addSupplier.ruleForm.personInCharge = '';
-                    that.$refs.addSupplier.ruleForm.tel = '';
-                    that.$refs.addSupplier.ruleForm.email = '';
-                    that.$refs.addSupplier.ruleForm.address = '';
+                    that.$refs.addCustomer.ruleForm.customerID = '';
+                    that.$refs.addCustomer.ruleForm.customerName = '';
+                    that.$refs.addCustomer.ruleForm.personInCharge = '';
+                    that.$refs.addCustomer.ruleForm.tel = '';
+                    that.$refs.addCustomer.ruleForm.email = '';
+                    that.$refs.addCustomer.ruleForm.address = '';
                     that.addDialogTableVisible = false;
-                    that.getSupplierID();
+                    that.getCustomerID();
                 }
             });
         },
         // 新增弹框中进行新增数据操作
         doCel () {
-            this.$refs.addSupplier.ruleForm.customerID = '';
-            this.$refs.addSupplier.ruleForm.customerName = '';
-            this.$refs.addSupplier.ruleForm.personInCharge = '';
-            this.$refs.addSupplier.ruleForm.tel = '';
-            this.$refs.addSupplier.ruleForm.email = '';
-            this.$refs.addSupplier.ruleForm.address = '';
+            this.$refs.addCustomer.ruleForm.customerID = '';
+            this.$refs.addCustomer.ruleForm.customerName = '';
+            this.$refs.addCustomer.ruleForm.personInCharge = '';
+            this.$refs.addCustomer.ruleForm.tel = '';
+            this.$refs.addCustomer.ruleForm.email = '';
+            this.$refs.addCustomer.ruleForm.address = '';
             this.addDialogTableVisible = false;
         },
         // 可以多选进行删除数据
         del (index, value) {
-            console.log(index+"123");
-            console.log(value+"456");
+            console.log(index + "123");
+            console.log(value + "456");
         },
         // 双击弹窗
         dblclickCell (row, column, cell, event) {
@@ -220,14 +217,15 @@ export default {
         },
         handleSelectionChange () { },
         // 获取客户ID
-        getSupplierID () {
-            var url = 'http://localhost:8888/customerManage/getSupplierList';
+        getCustomerID () {
+            var url = 'http://localhost:8888/customerManage/getCustomerLists';
             this.paramss = {
                 searchType: "searchAll",
                 keyWord: "random",
             };
             var that = this;
-            this.axios.post(url, qs.stringify(this.paramss)).then(function (res) {
+            this.axios.post(url, qs.stringify(that.paramss)).then(function (res) {
+                console.log(res.data.data)
                 if (res != undefined && res.data) {
                     res.data.data.forEach(element => {
                         that.searchByIDs.push(element);
@@ -237,14 +235,9 @@ export default {
                 that.tableData = res.data.data;
             });
         },
-        //获取客户Name 
-        getSupplierName () {
-
-        },
     },
     mounted () {
-        this.getSupplierID();
-        this.getSupplierName();
+        this.getCustomerID();
     }
 }
 </script>

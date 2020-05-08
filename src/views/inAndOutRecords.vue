@@ -91,14 +91,16 @@ export default {
                 number: "",
                 time: "",
                 personInCharge: "",
-            }]
+            }],
+            params:[],
+            paramss:'',
         }
     },
     methods: {
         setSecurityData () {
             var url = 'http://localhost:8888/repositoryManage/getRepositoryList';
             var that = this;
-            this.axios.get(url, qs.stringify(this.params)).then(function (res) {
+            this.axios.get(url, qs.stringify(this.paramss)).then(function (res) {
                 console.log(res)
                 if (res != undefined && res.data) {
                     that.search_repository_ID = res.data;//差了一个所有查询所有数据库
@@ -139,13 +141,14 @@ export default {
             };
             console.log(this.params)
             var url = 'http://localhost:8888/storageManage/searchStockRecord';
-            var that = this;
-            if (this.form.searchType == '' && this.form.repositoryIDStr == '' && this.form.beginDate == '' && this.form.endDate == '') {
-                that.$message({
-                    type: 'warning',
-                    message: '请选择查询类型'
-                });
-            } else {
+            var that = this; 
+            // if (that.form.searchType == '' && that.form.repositoryIDStr == '' && that.form.beginDate == '' && that.form.endDate == '') {
+            //     that.$message({
+            //         type: 'warning',
+            //         message: '请选择查询类型'
+            //     });
+            // } else {
+            //     debugger
                 this.axios.post(url, qs.stringify(this.params)).then(function (res) {
                     if (res.data !== "" || res.data !== 'null') {
                         console.log(res.data.data);
@@ -155,7 +158,7 @@ export default {
                         // });
                         console.log(that.tableData)
                     } else {
-                        that.tableData = []
+                        that.tableData = []                                                                            
                         that.$message({
                             type: 'warning',
                             message: '数据不存在'
@@ -163,7 +166,7 @@ export default {
                     }
 
                 });
-            }
+            // }
         },
         reSet () {
 
