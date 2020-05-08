@@ -30,20 +30,13 @@
                     <el-button type="primary" @click="onSubmit(search)">查询</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="add">新增</el-button>
+                    <el-button type="primary" @click="add" :disabled="this.isShow">新增</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="edit">编辑</el-button>
+                    <el-button type="primary" @click="edit" :disabled="this.isShow">编辑</el-button>
                 </el-form-item>
             </el-col>
         </el-row>
-        <!-- <el-row>
-            <el-col :span="12">
-                <el-button type="primary">添加客户</el-button>
-                <el-button type="primary">导入</el-button>
-                <el-button type="primary">导出</el-button>
-            </el-col>
-        </el-row> -->
         <el-form-item>
             <el-main style="max-height: 380px !important;border:solid 1px #E4E7ED;width:1200px;margin-top: 10px">
                 <el-table @selection-change="handleSelectionChange" :data="tableData" style="width: 100%" @cell-dblclick="dblclickCell">
@@ -79,6 +72,7 @@ export default {
     components: { vAddCustomer, vEditCustomer },
     data () {
         return {
+            isShow: false,
             customer: {},//新增客户
             ruleForm: '',
             params: [],
@@ -238,6 +232,10 @@ export default {
     },
     mounted () {
         this.getCustomerID();
+        if(localStorage.getItem('userName') !== 'admin'){
+            console.log(localStorage.getItem('userName'))
+            this.isShow = true;
+        }
     }
 }
 </script>

@@ -28,7 +28,7 @@ export default {
         return {
             form: {
                 userName: "",
-                password: "",
+                password: "", 
                 password2: "",
             },
             rules: {
@@ -62,7 +62,7 @@ export default {
                     message: '密码不一致'
                 });
             }
-            if (this.form.password == this.form.password2 && this.form.userName != null) {
+            if (this.form.password == this.form.password2 && this.form.userName != null && this.form.password!='' && this.form.password2 != '') {
                 var url = 'http://localhost:8888/user/register';
                 this.params = {
                     userName: this.form.userName,
@@ -74,7 +74,7 @@ export default {
                     if (res.data !== "") {
                         that.$message({
                             type: 'success',
-                            message: '注册成功'
+                            message: '修改成功'
                         });
                         that.$router.push('/');
                     } else {
@@ -86,6 +86,9 @@ export default {
                 });
             } 
         },
+    },
+    mounted(){
+        this.form.userName = localStorage.getItem("userName")
     }
 }
 

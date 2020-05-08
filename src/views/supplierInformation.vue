@@ -30,10 +30,10 @@
                     <el-button type="primary" @click="onSubmit(search)">查询</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="add">新增</el-button>
+                    <el-button type="primary" @click="add" :disabled="this.isShow">新增</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="edit">编辑</el-button>
+                    <el-button type="primary" @click="edit" :disabled="this.isShow">编辑</el-button>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -72,6 +72,7 @@ export default {
     components: { vAddSupplier, vEditSupplier },
     data () {
         return {
+            isShow: false,
             supplier: {},//新增供应商
             ruleForm: '',
             params: [],
@@ -235,6 +236,10 @@ export default {
     mounted () {
         this.getSupplierID();
         this.getSupplierName();
+        if(localStorage.getItem('userName') !== 'admin'){
+            console.log(localStorage.getItem('userName'))
+            this.isShow = true;
+        }
     }
 }
 </script>

@@ -60,6 +60,8 @@ export default {
                 this.axios.post(url, qs.stringify(this.params)).then(function (res) {
                     console.log(res.data)
                     if (res.data !== "") {
+                        localStorage.setItem('userName',res.data);
+                        that.$store.state.userName = res.data;
                         that.$router.push({ name: 'home', query:{userName:res.data}});
                     } else {
                         that.$message({

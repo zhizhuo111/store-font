@@ -96,7 +96,6 @@
 </template>
 
 <script>
-
 export default {
     name: "home",
     data () {
@@ -120,9 +119,7 @@ export default {
         }
     },
     created () {
-        var storage = window.sessionStorage;
-        storage.setItem('userName', this.$route.query.userName);
-        this.userName = storage.getItem('userName');
+        this.userName = localStorage.getItem('userName');
     }
 };
 </script>

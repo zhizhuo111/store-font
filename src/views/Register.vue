@@ -62,12 +62,18 @@ export default {
                     message: '密码不一致'
                 });
             }
-            if (this.form.password == this.form.password2 && this.form.userName != null) {
+            if (this.form.password == this.form.password2 && this.form.userName != null && this.form.password !== '' && this.form.password !=='') {
                 var url = 'http://localhost:8888/user/register';
                 this.params = {
                     userName: this.form.userName,
                     password: this.form.password,
                 };
+                if(this.params.userName == '' || this.params.password == ''){
+                    this.$message({
+                            type: 'warning',
+                            message: '请正确输入密码或用户名'
+                        });
+                }
                 let that = this;
                 this.axios.post(url, qs.stringify(this.params)).then(function (res) {
                     console.log(res.data)
